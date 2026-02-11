@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "itemflowmonitor",
+	"version": "${version}",
+	"name": "Item Flow Monitor",
+	"description": "Track item throughput in any container. Monitor items/sec, items/min, items/hour flowing through chests, hoppers, furnaces and more. Features configurable tracking modes, rate calculations, and an intuitive overlay UI.",
+	"authors": [
+		"fylhtq7779"
+	],
+	"license": "MIT",
+	"icon": "assets/itemflowmonitor/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.itemflowmonitor.ItemFlowMonitor"
+		],
+		"client": [
+			"com.itemflowmonitor.ItemFlowMonitorClient"
+		],
+		"modmenu": [
+			"com.itemflowmonitor.config.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"itemflowmonitor.mixins.json",
+		{
+			"config": "itemflowmonitor.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"accessWidener": "itemflowmonitor.accesswidener",
+	"depends": {
+		"fabricloader": ">=0.18.2",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
+	}
+}
