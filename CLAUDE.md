@@ -31,7 +31,7 @@ cp build/libs/itemflowmonitor-0.1.0.jar "/mnt/c/Users/fy82/AppData/Roaming/Prism
 
 ### Server (`src/main/java/com/itemflowmonitor/`)
 - **`ItemFlowMonitor.java`** — entrypoint (`ModInitializer`): networking init, tick events, block break handler, debug-команды `/ifm`
-- **`mixin/HopperBlockEntityMixin.java`** — перехват `addItem()` для записи событий передачи предметов. ThreadLocal для захвата оригинального стека
+- **`tracker/ContainerObserver.java`** — observer-подход: сравнение содержимого контейнеров каждый тик, запись положительных дельт. Заменил HopperBlockEntityMixin для Lithium-совместимости
 - **`tracker/ContainerTracker.java`** — кольцевой буфер событий, расчёт rate (ACTUAL/PREDICTED/AVERAGE), EMA-сглаживание
 - **`tracker/TrackerManager.java`** — синглтон-реестр трекеров (`BlockPos → ContainerTracker`), отслеживание viewer'ов
 - **`tracker/TrackerSavedData.java`** — персистенция через Mojang Codec (сохраняются настройки, не буферы)
@@ -58,7 +58,7 @@ cp build/libs/itemflowmonitor-0.1.0.jar "/mnt/c/Users/fy82/AppData/Roaming/Prism
 
 ## Mixins
 
-- **Server:** `itemflowmonitor.mixins.json` → `HopperBlockEntityMixin`
+- **Server:** `itemflowmonitor.mixins.json` → (пусто, HopperBlockEntityMixin удалён — заменён на ContainerObserver)
 - **Client:** `itemflowmonitor.client.mixins.json` → (зарезервировано, пока пусто)
 
 ## Development Philosophy

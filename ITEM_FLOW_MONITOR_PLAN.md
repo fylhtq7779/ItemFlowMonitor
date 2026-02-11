@@ -701,9 +701,22 @@ Rate overlay: иконка предмета + значение + период в
 2. Открыть сундук → кнопка IFM на месте, не перекрыта другими элементами.
 3. Открыть панель IFM → панель не конфликтует с UI другого мода.
 4. Активный трекер → overlay отображается корректно.
-5. Для Lithium: проверить что хоппер-трекинг работает (Lithium оптимизирует HopperBlockEntity).
+5. Для Lithium: ✅ Решено Observer-подходом (13.8).
 
-**Критичный кейс — Lithium:** Lithium заменяет логику хопперов для оптимизации. Наш `HopperBlockEntityMixin` хукает `addItem()`. Нужно проверить что Lithium не обходит этот метод. Если обходит — это **блокер** для совместимости, потребуется альтернативный мixin target.
+**Lithium — решено:** Observer-подход заменил mixin. Совместимость подтверждена.
+
+### 13.8 — Observer-подход для Lithium-совместимости ✅ DONE
+
+Lithium обходил `addItem()`, mixin не срабатывал. Решение: **сравнение содержимого контейнера каждый тик** через `ContainerObserver`.
+
+**Преимущества:** работает с Lithium и любыми модами; ловит все источники предметов; не зависит от внутренней реализации Minecraft.
+
+**Реализация:**
+- `tracker/ContainerObserver.java` — `Map<BlockPos, SlotSnapshot[]>`, сравнение слотов каждый тик, запись положительных дельт
+- Интегрирован в `TrackerNetworking.tick()` до обработки viewer'ов
+- `mixin/HopperBlockEntityMixin.java` удалён, `itemflowmonitor.mixins.json` — пустой массив
+
+**Тест:** ✅ Работает с Lithium и без. Хопперы, ручная вставка — всё трекается.
 
 ---
 
@@ -742,13 +755,13 @@ src/main/java/com/itemflowmonitor/
 ├── RateMode.java                   — enum: AVERAGE, ACTUAL, PREDICTED
 ├── TrackingMode.java               — enum: ALL, AUTO, MANUAL
 ├── TrackingPeriod.java             — enum: SECOND, MINUTE, HOUR
-├── mixin/
-│   └── HopperBlockEntityMixin.java — перехват addItem()
+├── mixin/                          — (пусто, mixin удалён)
 ├── network/
 │   ├── TrackerConfigC2SPacket.java — C2S пакет настроек
 │   ├── TrackerUpdateS2CPacket.java — S2C пакет обновления
 │   └── TrackerNetworking.java      — регистрация, обработка, тик
 ├── tracker/
+│   ├── ContainerObserver.java      — observer: сравнение слотов каждый тик
 │   ├── ContainerTracker.java       — логика трекера (events, rate, EMA)
 │   ├── TrackerManager.java         — синглтон-реестр трекеров
 │   └── TrackerSavedData.java       — сериализация (Codec)

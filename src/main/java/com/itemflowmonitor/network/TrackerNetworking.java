@@ -4,6 +4,7 @@ import com.itemflowmonitor.ItemFlowMonitor;
 import com.itemflowmonitor.RateMode;
 import com.itemflowmonitor.TrackingMode;
 import com.itemflowmonitor.TrackingPeriod;
+import com.itemflowmonitor.tracker.ContainerObserver;
 import com.itemflowmonitor.tracker.ContainerTracker;
 import com.itemflowmonitor.tracker.TrackerManager;
 import com.itemflowmonitor.util.ChestUtil;
@@ -48,6 +49,9 @@ public class TrackerNetworking {
 	/** Rate-limit для WARN логирования невалидных пакетов (60 сек) */
 	private static volatile long lastInvalidPacketLogTime = 0;
 	private static final long INVALID_PACKET_LOG_INTERVAL_MS = 60_000;
+
+	/** Observer для отслеживания изменений содержимого контейнеров */
+	private static final ContainerObserver observer = new ContainerObserver();
 
 	/** Кеш последнего отправленного состояния per-BlockPos */
 	private static final Map<BlockPos, CachedState> sentCache = new HashMap<>();
@@ -189,6 +193,7 @@ public class TrackerNetworking {
 			if (manager.hasTracker(pos)) {
 				manager.remove(pos);
 				sentCache.remove(pos);
+				observer.removeSnapshot(pos);
 				TrackerSavedData.markDirty();
 				ItemFlowMonitor.LOGGER.debug("IFM: трекер удалён для {} игроком {}",
 						pos, player.getName().getString());
@@ -200,6 +205,9 @@ public class TrackerNetworking {
 	public static void tick(MinecraftServer server) {
 		TrackerManager manager = TrackerManager.getInstance();
 		long currentTick = server.overworld().getGameTime();
+
+		// Observer: сравнение содержимого контейнеров для детекции добавленных предметов
+		observer.tick(server, manager, currentTick);
 
 		// Периодическая проверка: ghost-трекеры + валидация блоков (раз в 10 секунд)
 		if (currentTick % GHOST_CHECK_INTERVAL == 0) {
@@ -308,6 +316,7 @@ public class TrackerNetworking {
 		for (BlockPos pos : toRemove) {
 			manager.remove(pos);
 			sentCache.remove(pos);
+			observer.removeSnapshot(pos);
 			ItemFlowMonitor.LOGGER.debug("IFM: трекер {} удалён (блок больше не контейнер)", pos);
 		}
 		if (!toRemove.isEmpty()) {
@@ -442,13 +451,15 @@ public class TrackerNetworking {
 		);
 	}
 
-	/** Очистить кеш состояния для позиции (при удалении трекера) */
+	/** Очистить кеш состояния и снимок для позиции (при удалении трекера) */
 	public static void clearCachedState(BlockPos pos) {
 		sentCache.remove(pos);
+		observer.removeSnapshot(pos);
 	}
 
 	/** Очистить весь кеш (при смене мира) */
 	public static void clearAllCachedStates() {
 		sentCache.clear();
+		observer.clear();
 	}
 }
