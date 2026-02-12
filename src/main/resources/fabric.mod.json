@@ -3,10 +3,15 @@
 	"id": "itemflowmonitor",
 	"version": "${version}",
 	"name": "Item Flow Monitor",
-	"description": "Track item throughput in any container. Monitor items/sec, items/min, items/hour flowing through chests, hoppers, furnaces and more. Features configurable tracking modes, rate calculations, and an intuitive overlay UI.",
+	"description": "Track item throughput in any container. Monitor items/min and items/hour flowing through chests, hoppers, furnaces and more. Hover over the rate to see estimated time until the container is full. Features configurable tracking modes, rate calculations, and an intuitive overlay UI.",
 	"authors": [
 		"fylhtq7779"
 	],
+	"contact": {
+		"homepage": "https://github.com/fylhtq7779/ItemFlowMonitor",
+		"sources": "https://github.com/fylhtq7779/ItemFlowMonitor",
+		"issues": "https://github.com/fylhtq7779/ItemFlowMonitor/issues"
+	},
 	"license": "MIT",
 	"icon": "assets/itemflowmonitor/icon.png",
 	"environment": "*",
