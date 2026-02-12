@@ -609,227 +609,48 @@ Rate overlay: иконка предмета + значение + период в
 
 > **Справочный материал:** `MODRINTH_PAGE_BEST_PRACTICES.md` — анализ 20+ модов (700M+ скачиваний). Ключевые эталоны: AppleSkin (фича→скриншот), Zoomify (GIF-демо), Sodium (Before/After), Immersive Overlays (ближайший аналог IFM).
 
-### 13.1 — Иконка мода
+### 13.1 — Иконка мода ✅ DONE
 
-Создать иконку **128×128 пикселей** (или больше) в стиле Minecraft. Концепт: стилизованная воронка или сундук с цифрами/графиком потока. PNG с прозрачным фоном.
-
-Иконка используется и в Mod Menu, и на Modrinth/CurseForge — это первое, что видит пользователь в поиске.
+Иконка 512×512 пикселей: зелёные буквы "IFM" (Minecraft-шрифт) на тёмном фоне (#2B2D31) с outer glow и drop shadow. Сделана в Photoshop.
 
 **Файл:** `src/main/resources/assets/itemflowmonitor/icon.png`
 
-**Тест:** Иконка видна в Mod Menu, в списке модов Fabric Loader, на Modrinth. Не мыльная, стиль Minecraft, читаема в маленьком размере (32×32 preview).
+**Результат:** Иконка видна в Mod Menu и на Modrinth. Читаема на 32×32.
 
-### 13.2 — Метаданные мода и Modrinth
+### 13.2 — Метаданные мода и Modrinth ✅ DONE
 
-> **Из лучших практик:** Пустая боковая панель вызывает недоверие. Summary решает — пользователь принимает решение о скачивании за 5-10 секунд.
+**Результат:**
+- `fabric.mod.json`: добавлены `contact.homepage`, `contact.sources`, `contact.issues`. Лицензия MIT.
+- `gradle.properties`: версия `1.0.0`
+- GitHub: репо публичный, топики (minecraft, fabric, minecraft-mod, fabric-mod, utility)
+- Modrinth: Summary, теги (Utility, Storage), боковая панель (Source, Issues), environment "Client and server, required on both"
 
-#### Summary (краткое описание на Modrinth)
+### 13.3 — Визуальный контент (скриншоты, GIF) ✅ DONE
 
-**Оптимальная длина: 6-15 слов, одно предложение.** Описывать что видит/получает пользователь, не техническую реализацию.
+**Результат:**
+- GIF-демо: 5 сек, 520px, 10fps, <1MB (конвертировано из MP4 через ffmpeg, кроп 20% с каждой стороны)
+- 6 скриншотов: overlay-chest, overlay-hopper, settings-panel, settings-closeup, time-to-full, config-screen
+- Файлы в `docs/images/`, загружены на GitHub и Modrinth
 
-Варианты:
-- `"Real-time item throughput monitoring for any container."` (~7 слов)
-- `"Real-time item flow rate overlay for containers — see your farm's items/min."` (~12 слов)
+### 13.4 — Описание страницы на Modrinth ✅ DONE
 
-**Правила:**
-- Не начинать с "A mod that..." — это очевидно
-- Не включать версии Minecraft, названия загрузчиков
-- Описывать пользу, не реализацию
+**Результат:** Описание загружено на Modrinth. Структура: вступление → GIF-демо → Features (с inline-скриншотами overlay и time-to-full) → How to Use → Settings screenshot → Compatibility → FAQ. Черновик: `MODRINTH_DESCRIPTION.md`.
 
-#### fabric.mod.json
+### 13.5 — Gallery на Modrinth ✅ DONE
 
-- `description` — развёрнутое описание (отображается в Mod Menu)
-- `contact.homepage` — Modrinth URL
-- `contact.sources` — GitHub URL
-- `contact.issues` — GitHub Issues URL
-- `license` — MIT/LGPL-3.0
-- `suggests` — `"modmenu": "*"`
+**Результат:** 5 изображений загружены в Gallery с подписями: Flow rate overlay (featured), Hopper monitoring, Settings panel, Time-to-full estimate, Mod Menu configuration.
 
-#### gradle.properties
+### 13.6 — README для GitHub ✅ DONE
 
-- Версия → `1.0.0`
+**Результат:** `README.md` с центрированным заголовком, иконкой, бейджами (License, Minecraft, Fabric), GIF-демо, таблицей скриншотов, секциями Features, How to Use, Compatibility, Configuration, Building from Source, Contributing, License.
 
-#### Теги на Modrinth
+### 13.7 — Changelog ✅ DONE
 
-- **Utility** (обязательно)
-- **Storage** (относится к контейнерам)
+**Файл:** `CHANGELOG.md` — формат Keep a Changelog, v1.0.0 с полным списком features.
 
-#### Боковая панель на Modrinth
+### 13.8 — Лицензия ✅ DONE
 
-| Поле | Что писать | Приоритет |
-|------|-----------|-----------|
-| Report issues | GitHub Issues | Обязательно |
-| View source | GitHub Repository | Обязательно |
-| Visit wiki | GitHub Wiki (если есть) | Рекомендуется |
-| Join Discord | Discord сервер (если есть) | Опционально |
-| Donate | Ko-fi / Patreon (если есть) | Опционально |
-
-#### Client/Server совместимость
-
-Указать точно: **"Client and server"** — мод работает на обеих сторонах для полной функциональности. Без сервера — ограниченно.
-
-**Файлы:** `fabric.mod.json`, `gradle.properties`, настройки проекта на Modrinth.
-
-**Тест:** Mod Menu показывает полную информацию. Summary не обрезается в списке Modrinth.
-
-### 13.3 — Визуальный контент (скриншоты, GIF)
-
-> **Из лучших практик:** Для UI-мода скриншоты/GIF обязательны. GIF > статичный скриншот для демонстрации оверлеев. Эталон — паттерн AppleSkin (фича → скриншот) и Zoomify (GIF-демо).
-
-#### Что нужно снять
-
-**GIF (обязательно, минимум 1):**
-- Открытие контейнера → появление оверлея с rate в реальном времени (основная демонстрация)
-
-**Скриншоты (минимум 3-4):**
-1. Оверлей на сундуке с активным потоком предметов
-2. Оверлей на воронке / печке — показать разные контейнеры
-3. Панель настроек (SettingsPanel) — все элементы видны
-4. Разные режимы: items/min vs items/hour, или Average vs Predicted
-
-**Опционально:**
-- Скриншот конфигурации через Mod Menu (IFMConfigScreen)
-- Before/After в стиле Sodium (контейнер без мода → с модом)
-
-#### Технические требования
-
-- **Разрешение:** ширина 600-1000px (полная ширина области описания на Modrinth)
-- **Формат GIF:** плавный, 15-30 fps, не слишком длинный (5-15 сек)
-- **Аннотации на скриншотах:** стрелки, подписи — повышают понятность (паттерн Sodium)
-- Все изображения загрузить на CDN Modrinth (через gallery upload) — не внешние хостинги
-
-**Файлы:** Подготовить в отдельной папке `screenshots/` или загрузить напрямую.
-
-**Тест:** Все изображения загружаются на Modrinth, не битые, читаемы на мобильных устройствах.
-
-### 13.4 — Описание страницы на Modrinth
-
-> **Из лучших практик:** Структура — Что → Как → Фичи → Совместимость → FAQ. Списки > прозы. Оптимальная длина: 200-500 слов, не больше 800.
-
-#### Рекомендуемая структура описания
-
-```markdown
-<!-- Опционально: центрированный баннер/логотип -->
-
-Real-time item throughput monitoring for Minecraft containers.
-
-**Item Flow Monitor** adds an unobtrusive UI overlay to standard containers
-(chests, hoppers, furnaces, and more) that shows the rate of items flowing
-through them — in items/sec, items/min, or items/hour. Perfect for players
-who build farms and want to measure performance without manual counting.
-
-> This mod does **not** add any new blocks or items. It only adds an
-> informational overlay to existing container screens.
-
-![Item Flow Monitor Demo](url_gif)
-
-## Features
-
-- **Real-time flow rate** — see items/sec, items/min or items/hour directly in the container UI
-- **Three calculation modes** — Average (stable long-term), Actual (exact count per window), Predicted (real-time estimate with EMA smoothing)
-- **All standard containers** — chests, double chests, hoppers, furnaces, blast furnaces, smokers, barrels, dispensers, droppers, shulker boxes
-- **Flexible item tracking** — track all items, auto-detect the first item, or manually select a specific item
-- **Configurable via Mod Menu** — toggle tracking per container type
-- **12 languages** — English, Русский, 中文, Español, Deutsch, Français, 日本語, 한국어, Português, Italiano, Polski, Українська
-- **Lightweight** — observer-based architecture, zero overhead without active trackers
-
-## How to Use
-
-1. Install the mod (requires Fabric API)
-2. Open any container — click the **IFM** button to open the settings panel
-3. Toggle tracking **ON**, choose period and calculation mode
-4. The flow rate overlay appears in the corner of the container screen
-5. Configure which containers show IFM through **Mod Menu** → Item Flow Monitor
-
-![Settings panel](url_screenshot)
-
-## Compatibility
-
-- **Client + Server:** Install on both sides for accurate real-time data
-- **Lithium compatible:** Observer-based tracking, no hopper mixin conflicts
-- **Works with:** Mod Menu, Sodium, Iris, Fabric API
-- Tested on Minecraft 1.21.11
-
-## FAQ
-
-**Q: Does it work on vanilla servers?**
-A: The mod requires server-side installation for tracking. Client-only mode is not currently supported.
-
-**Q: Does it affect performance?**
-A: No. The mod only tracks containers with active trackers. Zero overhead without trackers.
-
-**Q: Can I hide the overlay for specific container types?**
-A: Yes — configure through Mod Menu → Item Flow Monitor.
-```
-
-#### Антипаттерны (чего избегать)
-
-- Стены текста без заголовков (антипример: Mouse Tweaks)
-- Описание длиннее 800 слов — вынести детали на wiki
-- Реклама в описании
-- Битые бейджи/изображения
-- Summary длиннее 15 слов
-- API-документация для разработчиков на странице для пользователей
-
-**Файл:** Описание создать в `MODRINTH_DESCRIPTION.md` (черновик), затем скопировать на Modrinth.
-
-**Тест:** Описание прочитано «свежими глазами» — понятно ли за 10 секунд что делает мод? Все ссылки и изображения работают.
-
-### 13.5 — Gallery на Modrinth
-
-> **Из лучших практик:** Gallery обязательна. Моды с Gallery выглядят профессиональнее. 4-6 изображений с подписями, не дублировать скриншоты из описания.
-
-**Рекомендуемые изображения (4-6 штук):**
-
-| # | Подпись (caption) | Что показать |
-|---|-------------------|-------------|
-| 1 | "Item flow overlay on a chest" | Основной оверлей с rate > 0 |
-| 2 | "Monitoring a hopper chain" | Воронка с активным потоком |
-| 3 | "Furnace throughput tracking" | Печка/коптильня/доменная |
-| 4 | "Settings panel with item selection" | Панель настроек в режиме MANUAL с выбранным предметом |
-| 5 | "Configuration screen via Mod Menu" | Экран IFMConfigScreen |
-| 6 | "Multilingual support (12 languages)" | UI на другом языке (ru_ru / zh_cn) |
-
-**Правила:**
-- Каждое изображение с **подписью** (caption) на английском
-- Показывать разные аспекты мода — не повторять описание
-- Разрешение 600-1000px по ширине
-
-**Тест:** Gallery заполнена, все изображения загружаются, подписи информативны.
-
-### 13.6 — README для GitHub
-
-Создать `README.md` для GitHub-репозитория. README — «лицо» проекта для разработчиков и контрибьюторов. Отличается от описания на Modrinth: более техническое, включает инструкции по сборке.
-
-**Структура:**
-- Баннер/иконка + название
-- Краткое описание (1-3 предложения)
-- Скриншот/GIF — мод в действии
-- Features — маркированный список
-- Installation — ссылки на Modrinth/CurseForge + ручная инструкция
-- Building from source — `./gradlew build`
-- Compatibility — MC версии, моды
-- Contributing — как помочь (issues, PR, переводы)
-- License
-
-**Файл:** `README.md`
-
-**Тест:** README читается на GitHub, изображения загружаются, ссылки работают.
-
-### 13.7 — Changelog
-
-Создать `CHANGELOG.md` в формате [Keep a Changelog](https://keepachangelog.com/):
-- v1.0.0 — полный список features, сгруппированных по категориям (Added)
-
-**Файл:** `CHANGELOG.md`
-
-### 13.8 — Лицензия
-
-Выбрать и добавить файл лицензии. Популярные для Fabric-модов: MIT, LGPL-3.0, Apache-2.0.
-
-**Файл:** `LICENSE`
-
-**Тест:** Лицензия указана в `fabric.mod.json`, файл `LICENSE` в корне, Modrinth показывает лицензию.
+**Результат:** MIT License. Файл `LICENSE` в корне, указана в `fabric.mod.json` и на Modrinth.
 
 ### 13.9 — Тестирование на версиях Minecraft
 
@@ -847,72 +668,71 @@ A: Yes — configure through Mod Menu → Item Flow Monitor.
 
 **Тест:** Для каждой версии: запустить инстанс → мод загрузился → открыть сундук → IFM работает → трекинг считает → настройки сохраняются.
 
-### 13.10 — Публикация
+### 13.10 — Публикация ✅ DONE (на ревью)
 
-1. Создать GitHub репозиторий
-2. Загрузить на [Modrinth](https://modrinth.com/) — основная платформа
-3. Загрузить на [CurseForge](https://www.curseforge.com/) — дополнительно
-4. Настроить CI/CD (GitHub Actions) для автосборки релизов
-
-**Тест:** Страница мода доступна. Скачивание работает. Установка по инструкции — мод загружается и работает.
+**Результат:**
+- GitHub: репо публичный — https://github.com/fylhtq7779/ItemFlowMonitor
+- Modrinth: проект создан, версия 1.0.0 загружена (Fabric, 1.21.11, Fabric API required, Mod Menu optional), описание с GIF и скриншотами, gallery 5 изображений, теги Utility + Storage, external links (source, issues). Отправлено на модерацию.
+- CurseForge: опционально, позже
+- CI/CD: опционально, позже
 
 ### 13.11 — Финальный чеклист перед публикацией
 
 > **На основе анализа 20+ успешных модов.** Каждый пункт проверен — только потом нажимать «Publish».
 
 #### Метаданные
-- [ ] Summary заполнен (6-15 слов, одно предложение, не обрезается в списке)
-- [ ] Иконка мода загружена (128×128+, читаема в 32×32 preview)
-- [ ] Теги выбраны (Utility, Storage)
-- [ ] Платформа указана (Fabric)
-- [ ] Client/Server совместимость указана правильно
-- [ ] Лицензия указана (в Modrinth + файл LICENSE + fabric.mod.json)
-- [ ] Поддерживаемые версии Minecraft указаны
-- [ ] Версия мода = 1.0.0
+- [x] Summary заполнен (6-15 слов, одно предложение, не обрезается в списке)
+- [x] Иконка мода загружена (512×512, читаема в 32×32 preview)
+- [x] Теги выбраны (Utility, Storage)
+- [x] Платформа указана (Fabric)
+- [x] Client/Server совместимость указана правильно (Required on both)
+- [x] Лицензия указана (MIT — Modrinth + LICENSE + fabric.mod.json)
+- [x] Поддерживаемые версии Minecraft указаны (1.21.11)
+- [x] Версия мода = 1.0.0
 
 #### Боковая панель (Modrinth)
-- [ ] Report issues → GitHub Issues
-- [ ] View source → GitHub Repository
-- [ ] Visit wiki → GitHub Wiki (если есть)
-- [ ] Join Discord → Discord (если есть)
+- [x] Report issues → GitHub Issues
+- [x] View source → GitHub Repository
+- [ ] ~~Visit wiki~~ — не нужно пока
+- [ ] ~~Join Discord~~ — нет Discord
 
 #### Описание
-- [ ] Краткое описание в начале (1-3 предложения, что делает мод)
-- [ ] Примечание: мод НЕ добавляет новых блоков (для ясности)
-- [ ] Минимум 1 GIF + 2-3 скриншота в описании
-- [ ] Фичи — маркированный список с **жирными** ключевыми словами
-- [ ] Секция "How to Use" с конкретными шагами
-- [ ] Информация о совместимости (client/server, Lithium, Sodium)
-- [ ] Упомянуты поддерживаемые языки (12 штук)
-- [ ] FAQ (минимум 2-3 вопроса)
-- [ ] Нет стен текста — все секции с заголовками
-- [ ] Длина: 200-500 слов (не больше 800)
-- [ ] Описание на английском языке
+- [x] Краткое описание в начале (1-3 предложения, что делает мод)
+- [x] Примечание: мод НЕ добавляет новых блоков (для ясности)
+- [x] Минимум 1 GIF + 2-3 скриншота в описании (GIF + 3 скриншота)
+- [x] Фичи — маркированный список с **жирными** ключевыми словами
+- [x] Секция "How to Use" с конкретными шагами
+- [x] Информация о совместимости (client/server, Lithium, Sodium)
+- [x] Упомянуты поддерживаемые языки (12 штук)
+- [x] FAQ (3 вопроса)
+- [x] Нет стен текста — все секции с заголовками
+- [x] Длина: 200-500 слов
+- [x] Описание на английском языке
 
 #### Визуальный контент
-- [ ] GIF демонстрирует оверлей в действии
-- [ ] Скриншоты показывают оверлей на разных контейнерах
-- [ ] Скриншот панели настроек
-- [ ] Все изображения загружаются корректно (не битые)
-- [ ] Разрешение 600-1000px по ширине
+- [x] GIF демонстрирует оверлей в действии
+- [x] Скриншоты показывают оверлей на разных контейнерах
+- [x] Скриншот панели настроек
+- [x] Все изображения загружаются корректно
+- [x] Разрешение 600-1000px по ширине
 
 #### Gallery
-- [ ] Gallery заполнена (4-6 изображений)
-- [ ] Каждое изображение с подписью (caption)
-- [ ] Изображения показывают разные аспекты мода
+- [x] Gallery заполнена (5 изображений)
+- [x] Каждое изображение с подписью (caption)
+- [x] Изображения показывают разные аспекты мода
 
 #### GitHub
-- [ ] README.md с описанием, скриншотами, инструкцией по сборке
-- [ ] CHANGELOG.md (v1.0.0)
-- [ ] LICENSE файл
-- [ ] .gitignore актуален (нет build/, .gradle/, .idea/)
+- [x] README.md с описанием, скриншотами, инструкцией по сборке
+- [x] CHANGELOG.md (v1.0.0)
+- [x] LICENSE файл
+- [x] .gitignore актуален (нет build/, .gradle/, .idea/)
 
 #### Финальная проверка
-- [ ] Страница прочитана «свежими глазами» — за 10 секунд понятно что делает мод?
-- [ ] Все ссылки работают (Modrinth, GitHub, wiki)
-- [ ] Нет грамматических ошибок в описании
-- [ ] `./gradlew build` — SUCCESS
-- [ ] Jar файл тестирован в чистом инстансе (без dev-зависимостей)
+- [x] Страница прочитана «свежими глазами» — за 10 секунд понятно что делает мод?
+- [x] Все ссылки работают (Modrinth, GitHub)
+- [x] Нет грамматических ошибок в описании
+- [x] `./gradlew build` — SUCCESS
+- [ ] Jar файл тестирован в чистом инстансе (без dev-зависимостей) — после одобрения модераторами
 
 ### 13.12 — Тестирование совместимости с популярными модами ✅ DONE
 
