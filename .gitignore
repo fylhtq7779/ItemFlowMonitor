@@ -42,3 +42,8 @@ replay_*.log
 # working files
 
 screens/
+
+# docs (keep CHANGELOG.md)
+
+*.md
+!CHANGELOG.md
