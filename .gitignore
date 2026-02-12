@@ -42,6 +42,8 @@ replay_*.log
 # working files
 
 screens/
+docs/images/*.mp4
+docs/images/*.png
 
 # docs (keep CHANGELOG.md)
 
