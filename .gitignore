@@ -47,3 +47,4 @@ screens/
 
 *.md
 !CHANGELOG.md
+!README.md
